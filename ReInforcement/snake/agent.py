@@ -5,6 +5,7 @@ from collections import deque
 from game import SnakeGameAI, Direction, Point
 from model import Linear_QNet, QTrainer
 from helper import plot
+import os
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -107,6 +108,16 @@ def train():
     record = 0
     agent = Agent()
     game = SnakeGameAI()
+
+     # Load the previous model checkpoint
+    
+    file_name = os.path.join('./model', 'model.pth')
+    if os.path.exists(file_name):
+        print('file exists')
+        agent.model.load_state_dict(torch.load(file_name))
+        agent.model.train()  # Set the model to training mode    
+    
+
     while True:
         # get old state
         state_old = agent.get_state(game)
@@ -142,6 +153,29 @@ def train():
             plot_mean_scores.append(mean_score)
             plot(plot_scores, plot_mean_scores)
 
+            # Save the model checkpoint after each game
+            # torch.save(agent.model.state_dict(), file_name)
+            agent.model.save()
+
+
+def test_model():
+    file_name = os.path.join('./model', 'model.pth')
+    agent = Agent()
+    agent.model.load_state_dict(torch.load(file_name))
+    agent.model.eval()  # Set the model to evaluation mode
+
+    game = SnakeGameAI()
+    while True:
+        state = agent.get_state(game)
+        action = agent.get_action(state)
+        reward, done, score = game.play_step(action)
+
+        if done:
+            game.reset()
+            print('Score:', score)
+            break
+
 
 if __name__ == '__main__':
     train()
+    # test_model()

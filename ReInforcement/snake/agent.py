@@ -155,7 +155,7 @@ def train():
 
             # Save the model checkpoint after each game
             # torch.save(agent.model.state_dict(), file_name)
-            agent.model.save()
+            # agent.model.save()
 
 
 def test_model():
@@ -173,9 +173,9 @@ def test_model():
         if done:
             game.reset()
             print('Score:', score)
-            break
+            # break
 
 
 if __name__ == '__main__':
-    train()
-    # test_model()
+    # train()
+    test_model()

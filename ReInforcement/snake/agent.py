@@ -99,6 +99,16 @@ class Agent:
             final_move[move] = 1
 
         return final_move
+    
+    def get_action_test(self, state):
+        final_move = [0,0,0]
+        state0 = torch.tensor(state, dtype=torch.float)
+        state0 = torch.unsqueeze(state0, 0)
+        prediction = self.model(state0)
+        move = torch.argmax(prediction).item()
+        final_move[move] = 1
+
+        return final_move
 
 
 def train():
@@ -159,7 +169,7 @@ def train():
 
 
 def test_model():
-    file_name = os.path.join('./model', 'model.pth')
+    file_name = os.path.join('./model', 'model_200.pth')
     agent = Agent()
     agent.model.load_state_dict(torch.load(file_name))
     agent.model.eval()  # Set the model to evaluation mode
@@ -167,7 +177,7 @@ def test_model():
     game = SnakeGameAI()
     while True:
         state = agent.get_state(game)
-        action = agent.get_action(state)
+        action = agent.get_action_test(state)
         reward, done, score = game.play_step(action)
 
         if done:

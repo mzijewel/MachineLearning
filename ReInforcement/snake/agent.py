@@ -111,6 +111,7 @@ class Agent:
         return final_move
 
 
+
 def train():
     plot_scores = []
     plot_mean_scores = []
@@ -122,11 +123,7 @@ def train():
      # Load the previous model checkpoint
     
     file_name = os.path.join('./model', 'model.pth')
-    if os.path.exists(file_name):
-        print('file exists')
-        agent.model.load_state_dict(torch.load(file_name))
-        agent.model.train()  # Set the model to training mode    
-    
+    # agent.model.load_model(file_name) 
 
     while True:
         # get old state
@@ -153,7 +150,9 @@ def train():
 
             if score > record:
                 record = score
-                agent.model.save()
+                if(record>40):
+                    file_name="model_g"+str(agent.n_games)+"_s"+str(record)+".pth"
+                    agent.model.save(file_name)
 
             print('Game', agent.n_games, 'Score', score, 'Record:', record)
 
@@ -169,10 +168,9 @@ def train():
 
 
 def test_model():
-    file_name = os.path.join('./model', 'model_200.pth')
+    file_name = os.path.join('./model', 'model_g2670_s95.pth')
     agent = Agent()
-    agent.model.load_state_dict(torch.load(file_name))
-    agent.model.eval()  # Set the model to evaluation mode
+    agent.model.load_model_test(file_name)
 
     game = SnakeGameAI()
     while True:

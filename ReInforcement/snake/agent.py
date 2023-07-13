@@ -1,3 +1,5 @@
+# https://github.com/Makeapp-Poland/ru_makeapp-ClubPuzzle
+
 import torch
 import random
 import numpy as np

@@ -1,4 +1,3 @@
-# supervision : https://github.com/roboflow/supervision
 # ultralytucs : https://github.com/ultralytics/ultralytics
 
 
@@ -65,6 +64,10 @@ def video(path):
     results=model.track(source=path,show=True)
     # results=model.track(source=path,show=True,tracker="bytetrack.yaml")
 
+def cam():
+    model=YOLO('yolov8n.pt')
+    model.predict(source='0',show=True)
+
 def calculate_fps():
     # Calculate FPS
     end_time = time.time()
@@ -72,7 +75,19 @@ def calculate_fps():
     fps = frame_count / elapsed_time
     cv2.putText()
 
+def image_seg(path):
+    model =YOLO('yolov8n-seg.pt')
+    results=model.predict(path)
+    results[0].save('tt.jpg')
 
-img_predict('4.png')
+def pose(path):
+    model=YOLO("yolov8n-pose.pt")
+    results=model.predict(path)
+
+    results[0].save('a.jpg')
+
+# cam()
+# img_predict('4.png')
 # multi_img_predict(['1.jpg','2.jpg'])
 # video('Sample.mp4')
+image_seg('s.jpeg')

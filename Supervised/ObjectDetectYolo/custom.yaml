@@ -1,0 +1,7 @@
+path: /Users/zahidul/ML/Supervised/ObjectDetectYolo/
+train: data2/images
+val: data2/images
+
+nc: 2
+
+names: ["awake","sleep"]

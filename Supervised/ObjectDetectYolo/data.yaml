@@ -1,0 +1,5 @@
+train: /Users/zahidul/ML/Supervised/ObjectDetectYolo/data/train/images
+val: /Users/zahidul/ML/Supervised/ObjectDetectYolo/data/valid/images
+
+nc: 5
+names: ['Helmet', 'Goggles', 'Jacket', 'Gloves', 'Footwear']
